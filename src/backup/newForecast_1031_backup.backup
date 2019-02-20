@@ -1,0 +1,400 @@
+<template>
+    <div>
+        <!-- 头部导航栏 -->
+        <v-toolbar app flat light height="55">
+            <!-- <v-btn icon @click="settingClick" v-if="this.showMenu === true">
+                <v-icon color="gray">more_horiz</v-icon>
+            </v-btn>-->
+
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-toolbar-title class="font-italic font-weight-bold">Astromind</v-toolbar-title>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-spacer></v-spacer>
+            <v-tabs slot="extension" v-model="tab" color="gray" grow>
+                <v-tabs-slider color="yellow"></v-tabs-slider>
+                <v-tab v-for="item in items" :key="item" class="font-weight-bold" grow>{{ item }}</v-tab>
+            </v-tabs>
+        </v-toolbar>
+        <!-- 导航栏对应的内容 -->
+        <v-tabs-items v-model="tab" grow>
+            <v-tab-item v-for="item in items" :key="item">
+                <!-- Today -->
+                <div v-if="tab==0">
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout justify-center>
+                                <v-flex xs6>
+                                    <!-- 请求图片 -->
+                                    <!-- <v-img :src="babyImg" style="margin:8px 1px 8px 25px;"></v-img> -->
+                                    <v-img :src="img" class="ml-5"></v-img>
+                                </v-flex>
+                                <v-flex xs6>
+                                    <v-card-title primary-title>
+                                        <div>
+                                            <div
+                                                class="headline font-weight-regular"
+                                            >{{constellation}}</div>
+                                            <div class="body-1">2000-11-11</div>
+                                            <!-- 请求星座 -->
+                                            <!-- <div class="headline font-weight-regular">{{constellation}}</div> -->
+                                            <!-- 请求生日 -->
+                                            <!-- <div class="body-1">{{birthday}}</div> -->
+                                        </div>
+                                    </v-card-title>
+                                </v-flex>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div
+                                class="body-2 regular"
+                                style="margin:5px;letter-spacing:0.6px;text-indent:20px"
+                            >{{analysis}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">LOVE</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div class="body-1" style="margin-left:10px">{{Love}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">Cause</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div class="body-1" style="margin-left:10px">{{Cause}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">Wealth</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div class="body-1" style="margin-left:10px">{{Wealth}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">Lucky number</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div class="body-1" style="margin-left:10px">{{number}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">Color</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div class="body-1" style="margin-left:10px">{{color}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12 class="mb-2">
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">Health</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div class="body-1" style="margin-left:10px">{{health}}</div>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12>
+                        <v-card>
+                            <v-layout>
+                                <v-card-title>
+                                    <div class="title">COUPLES</div>
+                                </v-card-title>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                            <div
+                                class="body-1"
+                                style="margin-left:10px"
+                            >You're wondering about what comes next,and you might have to deal with some pretty crazing feelings if you have a big decision awating.</div>
+                        </v-card>
+                    </v-flex>
+                </div>
+                <!-- Compatibility -->
+                <div v-else-if="tab==1">
+                    <v-flex xs12>
+                        <v-card>
+                            <v-layout>
+                                <v-flex xs6>
+                                    <!-- 请求图片 -->
+                                    <!-- <v-img :src="babyImg" style="margin:8px 1px 8px 25px;"></v-img> -->
+                                    <v-img :src="img" class="ml-5"></v-img>
+                                </v-flex>
+                                <v-flex xs6>
+                                    <v-card-title primary-title>
+                                        <div>
+                                            <div
+                                                class="headline font-weight-regular"
+                                            >{{constellation}}</div>
+                                            <div class="body-1">2000-11-11</div>
+                                            <!-- 请求星座 -->
+                                            <!-- <div class="headline font-weight-regular">{{constellation}}</div> -->
+                                            <!-- 请求生日 -->
+                                            <!-- <div class="body-1">{{birthday}}</div> -->
+                                        </div>
+                                    </v-card-title>
+                                </v-flex>
+                            </v-layout>
+                            <v-divider light></v-divider>
+                        </v-card>
+                    </v-flex>
+                    <v-flex xs12>
+                        <v-list three-line>
+                            <template v-for="(item, index) in contents">
+                                <v-subheader v-if="item.header" :key="item.header">{{ item.header }}</v-subheader>
+                                <v-divider
+                                    v-else-if="item.divider"
+                                    :inset="item.inset"
+                                    :key="index"
+                                ></v-divider>
+                                <v-list-tile v-else :key="item.title" avatar @click>
+                                    <v-list-tile-avatar>
+                                        <img :src="item.avatar">
+                                    </v-list-tile-avatar>
+                                    <v-list-tile-content>
+                                        <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                                        <v-list-tile-sub-title v-html="item.subtitle"></v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                            </template>
+                        </v-list>
+                    </v-flex>
+                </div>
+                <!-- Profile -->
+                <div v-else>
+                    <v-flex xs12 sm6 offset-sm3>
+                        <v-card>
+                            <v-list two-line subheader>
+                                <v-list-tile v-for="item in icons" :key="item.title" avatar @click>
+                                    <v-list-tile-avatar>
+                                        <v-icon :class="[item.iconClass]">{{ item.icon }}</v-icon>
+                                    </v-list-tile-avatar>
+                                    <v-list-tile-content>
+                                        <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                                        <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                </v-list-tile>
+                                <v-divider inset></v-divider>
+                                <v-subheader
+                                    inset
+                                    class="headline font-weight-light"
+                                    style="color:black;"
+                                >Famous Aquarius</v-subheader>
+                                <v-card>
+                                    <v-list-tile
+                                        v-for="item in icons2"
+                                        :key="item.title"
+                                        avatar
+                                        @click
+                                    >
+                                        <v-list-tile-avatar>
+                                            <v-icon :class="[item.iconClass]">{{ item.icon }}</v-icon>
+                                            <img :src="item.stars">
+                                        </v-list-tile-avatar>
+                                        <v-list-tile-content>
+                                            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+                                            <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
+                                        </v-list-tile-content>
+                                    </v-list-tile>
+                                </v-card>
+                            </v-list>
+                        </v-card>
+                    </v-flex>
+                </div>
+            </v-tab-item>
+        </v-tabs-items>
+    </div>
+</template>
+<script>
+import jsonp from "jsonp";
+export default {
+  //   props: ["showMenu", "titleContent", "constellation", "babyImg", "birthday"],
+  data() {
+    return {
+      img: require("../assets/me-portrait.png"),
+      tab: null,
+      items: ["Today", "Compatibility", "Profile"],
+      contents: [
+        { header: "TODAY YOUR SIGN IS COMPATIBLE WITH" },
+        {
+          avatar: require("../assets/img/Aries.png"),
+          title: "ARIES",
+          subtitle: " &mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Taurus.png"),
+          title: "Taurus",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Gemini.png"),
+          title: " Gemini",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Gemini.png"),
+          title: "Cancer",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Leo.png"),
+          title: "Leo",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Virgo.png"),
+          title: "Virgo",
+          subtitle: " &mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Libra.png"),
+          title: "Libra",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Scorpio.png"),
+          title: " Scorpio",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Sagittarius.png"),
+          title: "Sagittarius",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Capricorn.png"),
+          title: "Capricorn",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Aquarius.png"),
+          title: "Aquarius",
+          subtitle: "&mdash; The anergy of the day is electric"
+        },
+        { divider: true, inset: true },
+        {
+          avatar: require("../assets/img/Pisces.png"),
+          title: "Pisces",
+          subtitle: "&mdash; The anergy of the day is electric"
+        }
+      ],
+      icons: [
+        {
+          icon: "directions_run",
+          iconClass: "blue lighten-1 white--text",
+          title: "STRENGTHS",
+          subtitle: "Progressive,original"
+        },
+        {
+          icon: "thumb_down",
+          iconClass: "blue lighten-1 white--text",
+          title: "WEAKNESSES",
+          subtitle: "Runs from emotional expression"
+        },
+        {
+          icon: "face",
+          iconClass: "blue lighten-1 white--text",
+          title: "CHARISMATIC MARKS",
+          subtitle: "Good looks,beautiful eyes,angular faces,thin build"
+        }
+      ],
+      icons2: [
+        {
+          title: "林心如",
+          stars: require("../assets/img/linxinru.png"),
+          subtitle: "Jan 27, 1976"
+        },
+        {
+          //   icon: "call_to_action",
+          //   iconClass: "amber white--text",
+          title: "章子怡",
+          stars: require("../assets/img/zhangziyi.png"),
+          subtitle: "Feb 9, 1979"
+        }
+      ],
+      constellation: "",
+      analysis: "",
+      Overall: "",
+      Love: "",
+      Cause: "",
+      Wealth: "",
+      number: "",
+      color: "",
+      health: ""
+    };
+  },
+  mounted() {
+    console.log(
+      "星座 ==" + this.$store.state.userConstellationInfo.constellation
+    );
+    let cons = "";
+    if (this.$store.state.userConstellationInfo.constellation === "") {
+      cons = "射手座";
+    } else {
+      cons = this.$store.state.userConstellationInfo.constellation;
+    }
+    //   星座运势请求
+    jsonp(
+      "https://api.shenjian.io/constellation/today?appid=349103b9eb8dd67ef2ca0db6b513db04&constellation=" +
+        cons,
+      //   "https://api.shenjian.io/constellation/today?appid=349103b9eb8dd67ef2ca0db6b513db04&constellation=" +
+      //     this.$store.state.userConstellationInfo.constellation,
+      (err, data) => {
+        if (err) {
+          console.error(err.message);
+        } else {
+          console.log(JSON.stringify(data));
+
+          this.constellation = data.data.constellation;
+          this.analysis = data.data.analysis;
+          this.Overall = data.data.fate_data[0].value;
+          this.Love = data.data.fate_data[1].value;
+          this.Cause = data.data.fate_data[2].value;
+          this.Wealth = data.data.fate_data[3].value;
+          this.number = data.data.lucky_object[2].substring(5);
+          this.color = data.data.lucky_object[1].substring(5);
+          this.health = data.data.lucky_object[3].substring(5);
+        }
+      }
+    );
+  }
+};
+</script>
+
+
+

@@ -1,0 +1,156 @@
+<template>
+  <v-layout align-center justify-center row fill-height>
+    <v-toolbar app flat light height="60">
+      <!-- <v-toolbar app flat="" light height="70" color="white" > -->
+      <!-- <v-toolbar-side-icon></v-toolbar-side-icon> -->
+      <v-btn icon @click="settingClick" v-if="this.showMenu === true">
+        <v-icon color="gray">more_horiz</v-icon>
+        <!-- <v-icon color="gray">build</v-icon> -->
+      </v-btn>
+      <v-spacer v-else></v-spacer>
+      <!-- <v-toolbar-title slot="extension" class="white--text">Title</v-toolbar-title> -->
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-toolbar-title class="font-italic font-weight-bold">{{this.titleContent}}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <!-- <v-btn icon>
+        <v-icon>favorite</v-icon>
+      </v-btn>-->
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <toast :color="toastColor" :text="toastText" ref="toast"/>
+    <!-- 侧边栏-->
+    <v-navigation-drawer v-model="drawer" temporary app light width="250">
+      <v-list class="pa-1">
+        <v-list-tile avatar ripple>
+          <v-list-tile-avatar>
+            <img src="../assets/img/me-portrait.png">
+          </v-list-tile-avatar>
+          <v-list-tile-content>
+            <v-list-tile-title>{{this.$store.state.userInfo.username}}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
+        <v-list-tile v-for="item in items" :key="item.title" @click="itemClick(item.title)" ripple>
+          <v-list-tile-action>
+            <v-icon>{{ item.icon }}</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>{{ item.title }}</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="toggleLottery" ripple>
+          <v-list-tile-action>
+            <v-icon>adjust</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>go to lottery</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <v-list-tile @click="logOut" ripple>
+          <v-list-tile-action>
+            <v-icon>reply</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>logOut</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+  </v-layout>
+</template>
+
+<script>
+/* 
+  参数:
+            showMenu: 是否显示设置按钮
+            titleContent：标题内容 (现在是“astromind”)
+            eg：<babyHome_titile :showMenu="true" :titleContent="`Astromind`"/>
+                不显示设置按钮，标题名为“astromind”
+
+*/
+import toast from "./dialogs/Toast";
+import Vue from "vue";
+
+export default {
+  props: ["showMenu", "titleContent"],
+  // props: ["themeColor"],
+  data() {
+    return {
+      toastColor: "success",
+      toastText: "",
+      drawer: null,
+      items: [
+        { title: "Home", icon: "dashboard" },
+        { title: "About", icon: "question_answer" }
+      ]
+    };
+  },
+  components: {
+    toast
+  },
+
+  methods: {
+    // 显示通知
+    toggleLottery() {
+      // 更新userinfo数据
+      this.$store.commit(
+        "setLuckylotteryNotice",
+        !this.$store.state.userInfo.luckylotteryNotice.show
+      );
+      if (this.$store.state.userInfo.luckylotteryNotice.show) {
+        this.toastText = "lottery ON, go to the store and have a look.";
+        this.toastColor = "info";
+        this.$refs.toast.openSnackbat();
+      } else {
+        this.toastText = "lottery OFF";
+        this.toastColor = "info";
+        this.$refs.toast.openSnackbat();
+      }
+    },
+    /* 
+  设置按钮点击
+ */
+    settingClick() {
+      // this.toastText = "I am on the way, please wait for me. 🚀🚀🚀";
+      // this.toastColor = "info";
+      // this.$refs.toast.openSnackbat();
+      this.drawer = !this.drawer;
+    },
+
+    // 设置列表item点击
+    itemClick(val) {},
+
+    // 注销登录
+    logOut() {
+      Vue.localStorage.remove(
+        "chatMessage_" + this.$store.state.userInfo.username
+      );
+      Vue.localStorage.remove(
+        "userInfo_" + this.$store.state.userInfo.username
+      );
+      Vue.localStorage.remove(
+        "userConstellationInfo_" + this.$store.state.userInfo.username
+      );
+      Vue.localStorage.remove(
+        "babyInfo_" + this.$store.state.userInfo.username
+      );
+      Vue.localStorage.remove("currentUser");
+
+      // this.$router.push("/welcome");
+      navigator.app.exitApp();
+    }
+  }
+};
+</script>
+
+<style>
+#dev_1 {
+  text-align: center;
+}
+</style>
+

@@ -1,0 +1,430 @@
+<template>
+  <v-layout align-center justify-center row fill-height>
+    <v-toolbar app flat light height="60">
+      <v-btn icon @click="settingClick" v-if="this.showMenu === true">
+        <v-icon color="gray">more_horiz</v-icon>
+      </v-btn>
+      <v-spacer v-else></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-toolbar-title class="font-italic font-weight-bold">{{this.titleContent}}</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <toast :color="toastColor" :text="toastText" ref="toast"/>
+    <!-- 侧边栏-->
+    <v-navigation-drawer v-model="drawer" temporary app light width="250">
+      <v-list class="pa-1">
+        <v-list-tile avatar ripple @click.native="dialog = true">
+          <!-- 头像入口 -->
+          <v-list-tile-avatar>
+            <img src="../assets/img/me-portrait.png">
+          </v-list-tile-avatar>
+          <!-- 用户名 -->
+          <v-list-tile-content>
+            <v-list-tile-title>{{this.$store.state.userInfo.username}}</v-list-tile-title>
+          </v-list-tile-content>
+          <!-- 点击头像 -->
+          <v-dialog
+            v-model="dialog"
+            fullscreen
+            hide-overlay
+            transition="dialog-bottom-transition"
+            scrollable
+          >
+            <v-layout column fill-height>
+              <!-- 标题栏 -->
+              <v-flex xs12>
+                <v-toolbar flat light height="50">
+                  <v-btn icon @click.native="dialog = false">
+                    <v-icon color="gray">close</v-icon>
+                  </v-btn>
+                  <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
+                  <v-toolbar-title class="font-italic font-weight-bold">Astromind</v-toolbar-title>
+                  <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
+                  <v-spacer></v-spacer>
+                </v-toolbar>
+              </v-flex>
+              <v-flex xs12>
+                <v-card flat :height="displayHeight">
+                  <v-card-text>
+                    <v-flex xs12>
+                      <!-- 需要头像 -->
+                      <v-list-tile-avatar>
+                        <img src="../assets/img/me-portrait.png">
+                      </v-list-tile-avatar>
+                      <v-divider></v-divider>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-card-text @click="dialog1 = true">
+                        <!-- 需要用户名 -->
+                        <!-- {{this.$store.state.userInfo.username}} -->
+                        888
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <small>*you can change your username</small>
+                    </v-flex>
+                    <v-flex xs12>
+                      <v-card-text @click="dialog2 = true">
+                        <!-- 需要用户密码 -->
+                        123456
+                      </v-card-text>
+                      <v-divider></v-divider>
+                      <small>*you can change your password</small>
+                    </v-flex>
+                  </v-card-text>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-card-text>
+                      <!-- 需添加注销账号点击 -->
+                      <v-icon @click.native="dialog = false">power_settings_new</v-icon>
+                    </v-card-text>
+                    <v-btn color="blue darken-1" flat @click.native="dialog = false">Close</v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-flex>
+            </v-layout>
+          </v-dialog>
+          <!-- 点击用户名dialog1 -->
+          <v-dialog v-model="dialog1" full-width>
+            <v-layout wrap="" justify-center align-center>
+              <v-card>
+                <v-card-title>
+                  <span class="title">change your username</span>
+                  <v-spacer></v-spacer>
+                </v-card-title>
+                <v-card-actions>
+                  <v-text-field label="new username"></v-text-field>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+                <v-btn color="primary" flat @click="dialog1 = false">Close</v-btn>
+              </v-card>
+            </v-layout>
+          </v-dialog>
+          <!-- 点击密码dialog2 -->
+          <v-dialog v-model="dialog2" full-width>
+            <v-layout wrap="" justify-center align-center>
+              <v-card>
+                <v-card-title>
+                  <span class="title">change your password</span>
+                  <v-spacer></v-spacer>
+                </v-card-title>
+                <v-card-actions>
+                  <v-text-field label="new password"></v-text-field>
+                  <v-spacer></v-spacer>
+                </v-card-actions>
+                <v-btn color="primary" flat @click="dialog2 = false">Close</v-btn>
+              </v-card>
+            </v-layout>
+          </v-dialog>
+        </v-list-tile>
+      </v-list>
+      <v-list class="pt-0" dense>
+        <v-divider></v-divider>
+        <!-- collection -->
+        <v-list-tile v-model="dialog4" ripple>
+          <v-list-tile-action>
+            <v-icon>stars</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content @click="dialog4 = true">
+            <v-list-tile-title>Collection</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <!-- collection dialog4 -->
+        <v-dialog
+          v-model="dialog4"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+          scrollable
+        >
+          <v-layout column fill-height>
+            <v-flex xs12>
+              <v-toolbar flat light height="50">
+                <v-btn icon @click.native="dialog4 = false">
+                  <v-icon color="gray">close</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="font-italic font-weight-bold">Astromind</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </v-flex>
+            <v-flex xs12>
+              <!-- <collection/> -->
+            </v-flex>
+          </v-layout>
+        </v-dialog>
+        <!-- wallet -->
+        <v-list-tile v-model="dialog5" ripple>
+          <v-list-tile-action>
+            <v-icon>account_balance_wallet</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content @click="dialog5 = true">
+            <v-list-tile-title>Wallet</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <!-- wallet dialog5 -->
+        <v-dialog
+          v-model="dialog5"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+          scrollable
+        >
+          <v-layout column fill-height>
+            <v-flex xs12>
+              <v-toolbar flat light height="50">
+                <v-btn icon @click.native="dialog5 = false">
+                  <v-icon color="gray">close</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="font-italic font-weight-bold">Astromind</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </v-flex>
+            <v-flex xs12>
+              <v-card :height="displayHeight">
+                <v-card-title>
+                  <v-img :src="wallet"></v-img>
+                </v-card-title>
+                <v-list two-line subheader>
+                  <v-list-tile avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title>钱包地址</v-list-tile-title>
+                      <v-list-tile-sub-title>{{this.$store.state.userInfo.walletAddress}}</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                  <v-list-tile avatar>
+                    <v-list-tile-content>
+                      <v-list-tile-title>账户余额</v-list-tile-title>
+                      <!-- 需添加账户余额信息 -->
+                      <v-list-tile-sub-title>$2.2</v-list-tile-sub-title>
+                    </v-list-tile-content>
+                  </v-list-tile>
+                </v-list>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" flat @click.native="dialog5 = false">Close</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-dialog>
+        <!-- about us -->
+        <v-list-tile v-model="dialog3" ripple>
+          <v-list-tile-action>
+            <v-icon>question_answer</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content @click="dialog3 = true">
+            <v-list-tile-title>About</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <!--about us dialog3 -->
+        <v-dialog
+          v-model="dialog3"
+          fullscreen
+          hide-overlay
+          transition="dialog-bottom-transition"
+          scrollable
+        >
+          <v-layout column fill-height>
+            <v-flex xs12>
+              <v-toolbar flat light height="50">
+                <v-btn icon @click.native="dialog3 = false">
+                  <v-icon color="gray">close</v-icon>
+                </v-btn>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-toolbar-title class="font-italic font-weight-bold">Astromind</v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+                <v-spacer></v-spacer>
+              </v-toolbar>
+            </v-flex>
+            <v-flex xs12>
+              <v-card :height="displayHeight">
+                <v-card-text>
+                  <v-expansion-panel>
+                    <v-expansion-panel-content v-for="item in text" :key="item.index">
+                      <div slot="header">{{item.question}}</div>
+                      <v-card>
+                        <v-card-text class="grey lighten-3">{{item.answer}}</v-card-text>
+                      </v-card>
+                    </v-expansion-panel-content>
+                  </v-expansion-panel>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="blue darken-1" flat @click.native="dialog3 = false">Close</v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-dialog>
+        <v-list-tile @click="toggleLottery" ripple>
+          <v-list-tile-action>
+            <v-icon>adjust</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Go to lottery</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+        <!-- 需添加退出点击 -->
+        <v-list-tile @click="exit" ripple>
+          <v-list-tile-action>
+            <v-icon>reply</v-icon>
+          </v-list-tile-action>
+          <v-list-tile-content>
+            <v-list-tile-title>Quit</v-list-tile-title>
+          </v-list-tile-content>
+        </v-list-tile>
+      </v-list>
+    </v-navigation-drawer>
+  </v-layout>
+</template>
+
+<script>
+/* 
+  参数:
+            showMenu: 是否显示设置按钮
+            titleContent：标题内容 (现在是“astromind”)
+            eg：<babyHome_titile :showMenu="true" :titleContent="`Astromind`"/>
+                不显示设置按钮，标题名为“astromind”
+
+*/
+import toast from "./dialogs/Toast";
+// import collection from "./market/collection"
+
+export default {
+  props: ["showMenu", "titleContent"],
+  // props: ["themeColor"],
+  data() {
+    return {
+      toastColor: "success",
+      toastText: "",
+      drawer: null,
+      text: [
+        {
+          question: "What is Astromind?",
+          answer:
+            "Astromind is to conduct a psychological analysis project based on blockchain using big data and artificial intelligence.The cultivation of Astrobaby is combination of fostering fun and mind mapping, which is game for strangers to conduct social communication."
+        },
+        {
+          question: "What is Astrobaby?",
+          answer:
+            "Astrobaby is produced from Astroegg, which would provide prediction and company for our game players."
+        },
+        {
+          question: "What is the features of our game?",
+          answer:
+            "The information of players is stored on the blockchain that is decentralized so players do not need to worry about their privacy in the game. The emotional analysis is based on big data and artificial intelligence Dapp and cultivation are the core of the game. Astrobaby is cultivated with the information provided by the players."
+        },
+        {
+          question: "What is ABC?",
+          answer:
+            "The full name of ABC is Astrobaby Coin, which is token used in the game and generated by smart contracts on the blockchain.Primarily, after ABC is generated, it would be assigned to certain accounts. In the initial stage of the game, each player could apply for three ABC.If players buy ABC, their accounts would be assigned certain tokens."
+        },
+        {
+          question: "How to buy an Astroegg?",
+          answer:
+            "There is an address and an ID for every Astroegg and if there is a trade between owners and other players, the address and ID would be changed.Every ten minutes, there would an Astroegg produced. Players can participate in the draw but they have to freeze one ABC during the draw. One who get the Astobaby in the draw should pay the one ABC and the other would have 0.9 as refund."
+        },
+        {
+          question: "Could Astrobaby reproduce?",
+          answer:
+            "Astrobaby is unique for every player and they do not reproduce generations."
+        },
+        {
+          question: "Do I need to pay for it?",
+          answer:
+            "Only players in the early stage could have Astroegg(s), later players should pay for the ABC to buy Astroegg(s)."
+        }
+      ],
+      dialog: false,
+      dialog1: false,
+      dialog2: false,
+      dialog3: false,
+      dialog4: false,
+      dialog5: false,
+      dialog6: false,
+      displayHeight: 0,
+      wallet: require("../assets/img/wallet1.png")
+    };
+  },
+
+  components: {
+    toast
+    // market_title,
+    // collection
+  },
+  mounted() {
+    this.displayHeight = document.documentElement.clientHeight;
+  },
+  methods: {
+    // 显示通知
+    toggleLottery() {
+      // 更新userinfo数据
+      this.$store.commit(
+        "setLuckylotteryNotice",
+        !this.$store.state.userInfo.luckylotteryNotice.show
+      );
+      if (this.$store.state.userInfo.luckylotteryNotice.show) {
+        this.toastText = "lottery ON, go to the store and have a look.";
+        this.toastColor = "info";
+        this.$refs.toast.openSnackbat();
+      } else {
+        this.toastText = "lottery OFF";
+        this.toastColor = "info";
+        this.$refs.toast.openSnackbat();
+      }
+    },
+    /* 
+  设置按钮点击
+ */
+    settingClick() {
+      // this.toastText = "I am on the way, please wait for me. 🚀🚀🚀";
+      // this.toastColor = "info";
+      // this.$refs.toast.openSnackbat();
+      this.drawer = !this.drawer;
+    },
+
+    // 设置列表item点击
+    itemClick(val) {},
+    exit() {
+      /* 
+        
+      
+      */
+    }
+  }
+};
+</script>
+
+<style>
+#dev_1 {
+  text-align: center;
+}
+.v-card--reveal {
+  align-items: center;
+  bottom: 0;
+  justify-content: center;
+  opacity: 0.5;
+  position: absolute;
+  width: 100%;
+}
+</style>
+
