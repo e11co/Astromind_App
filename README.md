@@ -1,30 +1,15 @@
-# astrobaby
+# astromind app 
 
-> A Vue.js project
+## Introduction
 
-## Build Setup
+This is the front end implementation of astromind and this is a vue project that you can use it to build app for the android and ios platforms.
 
-``` bash
-# install dependencies
-npm install
+## Usage
 
-# serve with hot reload at localhost:8080
-npm run dev
+- first step , you need to install dependencies, complete it with `npm i ` .
 
-# build for production with minification
-npm run build
+- Then you can generate android or ios mobile applications through cordova operations.
+- Similarly, you can also use `npm run dev ` to access it on your browser.
 
-# build for production and view the bundle analyzer report
-npm run build --report
+>  Some of these services are on the server and will be sorted and uploaded later.
 
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
